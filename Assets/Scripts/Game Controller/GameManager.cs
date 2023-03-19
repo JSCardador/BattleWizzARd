@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public static GameManager Instance { get; private set; }
+
+
+    /// <summary>
+    ///  Enum with the different states in which the game can be.
+    /// </summary>
+    public enum GameState
+    {
+        MainMenu,
+        ImageSearch,
+        InGame,
+        Pause,
+        GameWon,
+        GameOver
+    }
+
 
     private void Awake()
     {
@@ -19,16 +33,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    ///  Enum with the different states in which the game can be.
-    /// </summary>
-    public enum GameState
+
+    private void Start()
     {
-        MainMenu,
-        ImageSearch,
-        InGame,
-        GameWon,
-        GameOver
+        CurrentGameState = GameState.MainMenu;
     }
 
 
@@ -64,17 +72,23 @@ public class GameManager : MonoBehaviour
     /// The controller for the game states.
     /// From here we will control what will happen in each state of the game.
     /// </summary>
-    public void Controller()
+    private void Controller()
     {
         switch (CurrentGameState)
         {
             case GameState.MainMenu:
+
                 break;
 
             case GameState.ImageSearch:
                 break;
 
             case GameState.InGame:
+                OnResumeGame();
+                break;
+
+            case GameState.Pause:
+                OnPauseGame();
                 break;
 
             case GameState.GameWon:
@@ -88,4 +102,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    private void OnPauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void OnResumeGame()
+    {
+        Time.timeScale = 1;
+    }
 }
