@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnPauseGame()
     {
+        PlayerController.Instance.PauseGame();
         Time.timeScale = 0;
     }
 
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnResumeGame()
     {
+        PlayerController.Instance.StartGame();
         Time.timeScale = 1;
     }
 }
