@@ -17,6 +17,8 @@ public class ImageSearcher : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _arTrackedImageManager.enabled = false;
     }
 
     [Header("AR")]

@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
     }
 
     private GameState _currentGameState { get; set; }
-    
-    
+
+
     /// <summary>
     ///  The current state of the game.
     /// </summary>
@@ -84,12 +84,12 @@ public class GameManager : MonoBehaviour
             case GameState.MainMenu:
                 break;
 
-            case GameState.ImageSearch:
-                ImageSearcher.Instance.StartSearchImage();
+            case GameState.FloorSearch:
+                FloorDetect.Instance.StartSearchFloor();
                 break;
 
-            case GameState.FloorSearch:
-                
+            case GameState.ImageSearch:
+                ImageSearcher.Instance.StartSearchImage();
                 break;
 
             case GameState.InGame:
@@ -112,12 +112,18 @@ public class GameManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Pauses the game.
+    /// </summary>
     private void OnPauseGame()
     {
         Time.timeScale = 0;
     }
 
 
+    /// <summary>
+    /// Resumes the game.
+    /// </summary>
     private void OnResumeGame()
     {
         Time.timeScale = 1;

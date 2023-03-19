@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 public class FloorDetect : MonoBehaviour
 {
-    public FloorDetect Instance { get; private set; }
+    public static FloorDetect Instance { get; private set; }
 
     [Header("AR")]
     [SerializeField] private ARPlaneManager _arPlaneManager;
@@ -17,6 +14,8 @@ public class FloorDetect : MonoBehaviour
 
 
     // Private variables
+    
+    // We will use these 3 variables to calculate a surface of 2.5 m2 (or more) and express it as a percentage.
     private Vector2 _currentPlaneSize
     {
         get => _currentPlaneSize;
@@ -46,6 +45,8 @@ public class FloorDetect : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        _arPlaneManager.enabled = false;
     }
 
 
@@ -55,6 +56,9 @@ public class FloorDetect : MonoBehaviour
     }
 
 
+    /// <summary>
+    ///  Starts the search for the floor.
+    /// </summary>
     public void StartSearchFloor()
     {
         _arPlaneManager.enabled = true;
@@ -62,6 +66,10 @@ public class FloorDetect : MonoBehaviour
     }
 
 
+    /// <summary>
+    ///  Called when the ARPlaneManager detects a change in the planes. 
+    /// </summary>
+    /// <param name="eventArgs"></param>
     private void OnPlanesChanged(ARPlanesChangedEventArgs eventArgs)
     {
         foreach (var plane in eventArgs.added)
@@ -77,22 +85,41 @@ public class FloorDetect : MonoBehaviour
     }
 
 
+    /// <summary>
+    ///  Called when the size of the plane is updated.
+    /// If the floor is big enough, the search is finished.
+    /// </summary>
+    /// <param name="plane"></param>
     private void OnPlaneUpdated(ARPlane plane)
     {
         _currentPlaneSize = plane.size;
 
         if (_floorSizePercentage >= 100)
         {
-            _arPlaneManager.enabled = false;
-            _arPlaneManager.planesChanged -= OnPlanesChanged;
-
-            GameManager.Instance.SetGameState(GameManager.GameState.ImageSearch);
+            OnFinishScan();
         }
     }
 
 
+    /// <summary>
+    ///  Called when the floor is found.
+    /// </summary>
+    /// <param name="plane"></param>
     private void FloorFound(ARPlane plane)
     {
         _currentPlaneSize = plane.size;
+    }
+
+
+/// <summary>
+/// Called when the floor is big enough.
+/// Disables the ARPlaneManager and changes the game state to ImageSearch.
+/// </summary>
+    private void OnFinishScan()
+    {
+        _arPlaneManager.enabled = false;
+        _arPlaneManager.planesChanged -= OnPlanesChanged;
+
+        GameManager.Instance.SetGameState(GameManager.GameState.ImageSearch);
     }
 }
