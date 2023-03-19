@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         CurrentGameState = GameState.MainMenu;
     }
 
-
+    private GameState _currentGameState { get; set; }
     /// <summary>
     ///  The current state of the game.
     /// </summary>
@@ -48,12 +48,12 @@ public class GameManager : MonoBehaviour
     {
         private set
         {
-            CurrentGameState = value;
+            _currentGameState = value;
             Controller();
         }
         get
         {
-            return CurrentGameState;
+            return _currentGameState;
         }
     }
 
@@ -74,10 +74,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Controller()
     {
+        UIController.Instance.PanelChanger();
+
         switch (CurrentGameState)
         {
             case GameState.MainMenu:
-
                 break;
 
             case GameState.ImageSearch:
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
     }
+
 
     private void OnResumeGame()
     {

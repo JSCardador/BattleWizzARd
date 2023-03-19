@@ -21,7 +21,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button btnQuitGame;
     [SerializeField] private Button btnPauseGame;
     [SerializeField] private Button btnResumeGame;
-    [SerializeField] private Button btnRestartGame;
     [SerializeField] private Button btnMainMenuGame;
     [SerializeField] private Button btnGameOverGame;
 
@@ -47,10 +46,9 @@ public class UIController : MonoBehaviour
         btnResumeGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.InGame));
         btnMainMenuGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.MainMenu));
         btnGameOverGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.MainMenu));
-        // btnRestartGame.onClick.AddListener(() => GameManager.Instance.CurrentGameState = GameManager.GameState.InGame);
     }
 
-    private void PanelChanger()
+    public void PanelChanger()
     {
         switch (GameManager.Instance.CurrentGameState)
         {
