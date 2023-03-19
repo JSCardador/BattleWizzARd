@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject mainMenuScreen;
     [SerializeField] private GameObject inGameScreen;
+    [SerializeField] private GameObject searchImageScreen;
     [SerializeField] private GameObject pauseScreen;
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private GameObject gameWonScreen;

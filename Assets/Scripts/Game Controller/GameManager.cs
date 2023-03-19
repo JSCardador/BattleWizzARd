@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         MainMenu,
+        FloorSearch,
         ImageSearch,
         InGame,
         Pause,
@@ -40,6 +41,8 @@ public class GameManager : MonoBehaviour
     }
 
     private GameState _currentGameState { get; set; }
+    
+    
     /// <summary>
     ///  The current state of the game.
     /// </summary>
@@ -82,6 +85,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.ImageSearch:
+                ImageSearcher.Instance.StartSearchImage();
+                break;
+
+            case GameState.FloorSearch:
+                
                 break;
 
             case GameState.InGame:
