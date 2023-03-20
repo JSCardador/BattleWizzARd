@@ -14,7 +14,7 @@ public class FloorDetect : MonoBehaviour
 
 
     // Private variables
-    
+
     // We will use these 3 variables to calculate a surface of 2.5 m2 (or more) and express it as a percentage.
     private Vector2 _currentPlaneSize
     {
@@ -45,7 +45,7 @@ public class FloorDetect : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         _arPlaneManager.enabled = false;
     }
 
@@ -111,15 +111,28 @@ public class FloorDetect : MonoBehaviour
     }
 
 
-/// <summary>
-/// Called when the floor is big enough.
-/// Disables the ARPlaneManager and changes the game state to ImageSearch.
-/// </summary>
+    /// <summary>
+    /// Called when the floor is big enough.
+    /// Disables the ARPlaneManager and changes the game state to ImageSearch.
+    /// </summary>
     private void OnFinishScan()
     {
         _arPlaneManager.enabled = false;
         _arPlaneManager.planesChanged -= OnPlanesChanged;
 
         GameManager.Instance.SetGameState(GameManager.GameState.ImageSearch);
+    }
+
+    /// <summary>
+    ///  Returns the height of the floor.
+    /// </summary>
+    /// <returns></returns>
+    public float GetFloorHeight()
+    {
+#if UNITY_EDITOR
+        return 0f;
+#else
+        return _currentPlaneSize.y;
+#endif
     }
 }

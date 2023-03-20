@@ -12,7 +12,7 @@ public class EnemiesManager : MonoBehaviour
 
 
     // Private variables
-    private float spawnTime = 10f;
+    private float spawnTime = 5f;
     private float timeElapsed = 0f;
     private int spawnRate = 0;
 
@@ -121,6 +121,6 @@ public class EnemiesManager : MonoBehaviour
     {
         float radius = 5.0f; // Radio del círculo
         Vector2 randomCircle = Random.insideUnitCircle * radius;
-        return new Vector3(randomCircle.x, 0, randomCircle.y) + _playerTransform.position;
+        return new Vector3(randomCircle.x, FloorDetect.Instance.GetFloorHeight(), randomCircle.y) + _playerTransform.position;
     }
 }
