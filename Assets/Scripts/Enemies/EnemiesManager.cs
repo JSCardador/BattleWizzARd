@@ -1,0 +1,122 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemiesManager : MonoBehaviour
+{
+    public static EnemiesManager Instance { get; private set; }
+
+
+    [Header("Enemy")]
+    [SerializeField] private GameObject _enemy;
+
+
+    // Private variables
+    private float spawnTime = 10f;
+    private float timeElapsed = 0f;
+    private int spawnRate = 0;
+
+
+    private List<GameObject> _enemies = new List<GameObject>();
+
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    /// <summary>
+    /// Start spawning enemies
+    /// </summary>
+    public void StartGame()
+    {
+        StartCoroutine(SpawnEnemiesRoutine());
+    }
+
+
+    /// <summary>
+    /// Stop spawning enemies
+    /// </summary>
+    public void PauseGame()
+    {
+        StopAllCoroutines();
+    }
+
+
+    /// <summary>
+    /// Call when we win or lose the game.
+    /// </summary>
+    public void EndGame()
+    {
+        StopAllCoroutines();
+        spawnRate = 0;
+        timeElapsed = 0f;
+        DeleteAllEnemies();
+    }
+
+
+    /// <summary>
+    /// Routine to generate enemies every spawnTime seconds and increase the generation rate every 10 seconds by 1 up to 10 enemies
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnEnemiesRoutine()
+    {
+        while (true)
+        {
+            timeElapsed += spawnTime;
+            spawnRate = (int)(timeElapsed / 10f); // Increase spawn rate by 1 every  10 seconds
+            spawnRate = spawnRate > 10 ? 10 : spawnRate; // Limit spawn rate to 10
+
+            yield return new WaitForSeconds(spawnTime);
+            yield return new WaitUntil(() => GameManager.Instance.CurrentGameState == GameManager.GameState.InGame);
+
+            for (int i = 0; i < spawnRate; i++)
+            {
+                SpawnEnemy(CalculateRandomPosicionToSpawn());
+                Debug.Log("Spawning enemy  in " + spawnRate + " seconds" + " at " + Time.time + " seconds");
+                yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+            }
+        }
+    }
+
+
+    /// <summary>
+    ///  Spawn an enemy at the given position
+    /// </summary>
+    /// <param name="position"></param>
+    private void SpawnEnemy(Vector3 position)
+    {
+        _enemies.Add(Instantiate(_enemy, position, Quaternion.identity));
+    }
+
+
+    private void DeleteAllEnemies()
+    {
+        foreach (GameObject enemy in _enemies)
+        {
+            Destroy(enemy);
+        }
+        _enemies.Clear();
+    }
+
+
+    /// <summary>
+    ///  Calculate a random position to spawn an enemy
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 CalculateRandomPosicionToSpawn()
+    {
+        float x = Random.Range(-8f, 8f);
+        float y = Random.Range(-4f, 4f);
+        return new Vector3(x, 0, 0);
+    }
+}

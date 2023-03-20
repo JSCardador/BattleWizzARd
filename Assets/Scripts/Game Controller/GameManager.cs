@@ -22,25 +22,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-
-    private void Start()
-    {
-        CurrentGameState = GameState.MainMenu;
-    }
-
-    private GameState _currentGameState { get; set; }
+   private GameState _currentGameState { get; set; }
 
 
     /// <summary>
@@ -58,6 +40,25 @@ public class GameManager : MonoBehaviour
         {
             return _currentGameState;
         }
+    }
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    private void Start()
+    {
+        CurrentGameState = GameState.MainMenu;
     }
 
 
@@ -101,9 +102,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.GameWon:
+                OnGameWon();
                 break;
 
             case GameState.GameOver:
+                OnGameOver();
                 break;
 
             default:
@@ -118,6 +121,7 @@ public class GameManager : MonoBehaviour
     private void OnPauseGame()
     {
         PlayerController.Instance.PauseGame();
+        EnemiesManager.Instance.PauseGame();
         Time.timeScale = 0;
     }
 
@@ -127,7 +131,25 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnResumeGame()
     {
+        EnemiesManager.Instance.StartGame();
         PlayerController.Instance.StartGame();
         Time.timeScale = 1;
     }
+
+
+    private void OnGameOver()
+    {
+        PlayerController.Instance.EndGame();
+        EnemiesManager.Instance.EndGame();
+        Time.timeScale = 0;
+    }
+
+
+    private void OnGameWon()
+    {
+        PlayerController.Instance.EndGame();
+        EnemiesManager.Instance.EndGame();
+        Time.timeScale = 0;
+    }
+
 }

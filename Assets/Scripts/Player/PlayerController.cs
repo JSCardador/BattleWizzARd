@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _bulletSpeed = 5f;
 
 
-    // Private Variables
-
 
     private void Awake()
     {
@@ -32,20 +30,25 @@ public class PlayerController : MonoBehaviour
         this.enabled = false;
     }
 
+
     public void StartGame()
     {
         this.enabled = true;
     }
+
 
     public void PauseGame()
     {
         this.enabled = false;
     }
 
+
     public void EndGame()
     {
         this.enabled = false;
     }
+    
+    
     private void Update()
     {
 #if !UNITY_EDITOR
