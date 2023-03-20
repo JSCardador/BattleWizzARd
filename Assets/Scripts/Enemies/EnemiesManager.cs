@@ -86,7 +86,6 @@ public class EnemiesManager : MonoBehaviour
             for (int i = 0; i < spawnRate; i++)
             {
                 SpawnEnemy(CalculateRandomPosicionToSpawn());
-                Debug.Log("Spawning enemy  in " + spawnRate + " seconds" + " at " + Time.time + " seconds");
                 yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
             }
         }

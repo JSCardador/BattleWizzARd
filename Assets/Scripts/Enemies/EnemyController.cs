@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject _bullet;
     [SerializeField] private Transform _bulletSpawnPoint;
 
+
     // Private variables
     private Transform _playerTransform;
     private Animator _animator;
@@ -31,27 +32,36 @@ public class EnemyController : MonoBehaviour
     }
 
 
+    /// <summary>
+    ///  Enemy will shoot at the player every 2 to 5 seconds
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Shoot()
     {
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(2f, 5f));
             _animator.SetTrigger("Shoot");
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.15f); // Wait until the right moment of animation
             Instance_OnEnemyShoot();
             yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot")); // Wait until the animation is finished
         }
     }
 
 
+    /// <summary>
+    ///  Instantiate the bullet and add force to it
+    /// </summary>
     private void Instance_OnEnemyShoot()
     {
-        Debug.Log("Enemy shoot");
         GameObject bullet = Instantiate(_bullet, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
         bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 5, ForceMode.Impulse);
     }
 
 
+    /// <summary>
+    /// Call when the enemy dies and remove it from the list of enemies in the EnemiesManager
+    /// </summary>
     public void Die()
     {
         StopCoroutine(Shoot());

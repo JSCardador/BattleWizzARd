@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("Game Objects")]
     [SerializeField] private Camera _camera;
+
+    [SerializeField] private Image _liveBar;
+
+
+    private int Lives = 10;
 
 
     private void Awake()
@@ -23,6 +29,9 @@ public class PlayerController : MonoBehaviour
         }
 
         this.enabled = false;
+
+        Lives = 10;
+        _liveBar.fillAmount = (float)Lives / 10;
     }
 
 
@@ -57,6 +66,11 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Shoots a raycast from the camera to the mouse position (to test in the Editor) or the first touch position.
+    /// If the raycast hits an enemy, it calls the Die() method of the EnemyController script.
+    /// If the raycast hits an enemy bullet, it destroys the bullet.
+    /// </summary>
     private void Shoot()
     {
 #if UNITY_EDITOR
@@ -76,6 +90,27 @@ public class PlayerController : MonoBehaviour
             else if (hit.collider.tag == ("EnemyBullet"))
             {
                 Destroy(hit.collider.gameObject);
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// If the player collides with an enemy bullet, it destroys the bullet and decreases the player's lives.
+    /// If the player has no more lives, it calls the SetGameState() method of the GameManager script.
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "EnemyBullet")
+        {
+            Destroy(other.gameObject);
+            Lives--;
+            _liveBar.fillAmount = (float)Lives / 10;
+
+            if (Lives <= 0)
+            {
+                GameManager.Instance.SetGameState(GameManager.GameState.GameOver);
             }
         }
     }
