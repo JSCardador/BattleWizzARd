@@ -73,6 +73,10 @@ public class PlayerController : MonoBehaviour
             {
                 hit.collider.GetComponent<EnemyController>().Die();
             }
+            else if (hit.collider.tag == ("EnemyBullet"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
         }
     }
 }

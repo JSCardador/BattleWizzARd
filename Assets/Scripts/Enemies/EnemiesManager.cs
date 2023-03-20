@@ -12,7 +12,7 @@ public class EnemiesManager : MonoBehaviour
 
 
     // Private variables
-    private float spawnTime = 5f;
+    private float spawnTime = 2f;
     private float timeElapsed = 0f;
     private int spawnRate = 0;
 
@@ -69,7 +69,7 @@ public class EnemiesManager : MonoBehaviour
 
 
     /// <summary>
-    /// Routine to generate enemies every spawnTime seconds and increase the generation rate every 10 seconds by 1 up to 10 enemies
+    /// Routine to generate enemies every spawnTime seconds and increase the generation rate every 2 seconds by 1 up to 10 enemies
     /// </summary>
     /// <returns></returns>
     private IEnumerator SpawnEnemiesRoutine()
@@ -127,6 +127,6 @@ public class EnemiesManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         _enemies.Remove(enemy);
-        Destroy(enemy);
+        // Destroy(enemy);
     }
 }

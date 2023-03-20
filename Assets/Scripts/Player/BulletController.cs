@@ -23,13 +23,4 @@ public class BulletController : MonoBehaviour
         _bulletSpeed = bulletSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
-    }
-
 }
