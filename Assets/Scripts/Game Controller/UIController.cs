@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button btnResumeGame;
     [SerializeField] private Button btnMainMenuGame;
     [SerializeField] private Button btnGameOverGame;
+    [SerializeField] private Button btnPauseQuitGame;
 
 
     void Awake()
@@ -44,6 +45,7 @@ public class UIController : MonoBehaviour
     {
         btnPlayGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.FloorSearch));
         btnQuitGame.onClick.AddListener(Application.Quit);
+        btnPauseQuitGame.onClick.AddListener(Application.Quit);
         btnPauseGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.Pause));
         btnResumeGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.InGame));
         btnMainMenuGame.onClick.AddListener(() => GameManager.Instance.SetGameState(GameManager.GameState.MainMenu));
