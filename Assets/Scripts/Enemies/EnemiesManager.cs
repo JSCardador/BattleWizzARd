@@ -19,6 +19,8 @@ public class EnemiesManager : MonoBehaviour
 
     private List<GameObject> _enemies = new List<GameObject>();
 
+    private Transform _playerTransform;
+
 
 
     private void Awake()
@@ -31,6 +33,8 @@ public class EnemiesManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        _playerTransform = Camera.main.transform;
     }
 
 
@@ -110,13 +114,13 @@ public class EnemiesManager : MonoBehaviour
 
 
     /// <summary>
-    ///  Calculate a random position to spawn an enemy
+    ///  Calculate a random position to spawn an enemy around the player
     /// </summary>
     /// <returns></returns>
     private Vector3 CalculateRandomPosicionToSpawn()
     {
-        float x = Random.Range(-8f, 8f);
-        float y = Random.Range(-4f, 4f);
-        return new Vector3(x, 0, 0);
+        float radius = 5.0f; // Radio del círculo
+        Vector2 randomCircle = Random.insideUnitCircle * radius;
+        return new Vector3(randomCircle.x, 0, randomCircle.y) + _playerTransform.position;
     }
 }
