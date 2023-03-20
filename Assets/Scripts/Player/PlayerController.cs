@@ -10,11 +10,6 @@ public class PlayerController : MonoBehaviour
     [Header("Game Objects")]
     [SerializeField] private Camera _camera;
 
-    [SerializeField] private GameObject _bullet;
-
-    [SerializeField] private float _bulletSpeed = 5f;
-
-
 
     private void Awake()
     {
@@ -47,8 +42,8 @@ public class PlayerController : MonoBehaviour
     {
         this.enabled = false;
     }
-    
-    
+
+
     private void Update()
     {
 #if !UNITY_EDITOR
@@ -64,8 +59,20 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject newBullet = Instantiate(_bullet, _camera.transform.position, _camera.transform.rotation);
+#if UNITY_EDITOR
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+#else
+        Ray ray = _camera.ScreenPointToRay(Input.GetTouch(0).position);
+#endif
 
-        newBullet.GetComponent<BulletController>().SetBulletSpeed(_bulletSpeed);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.tag == ("Enemy"))
+            {
+                hit.collider.GetComponent<EnemyController>().Die();
+            }
+        }
     }
 }

@@ -123,4 +123,10 @@ public class EnemiesManager : MonoBehaviour
         Vector2 randomCircle = Random.insideUnitCircle * radius;
         return new Vector3(randomCircle.x, FloorDetect.Instance.GetFloorHeight(), randomCircle.y) + _playerTransform.position;
     }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        _enemies.Remove(enemy);
+        Destroy(enemy);
+    }
 }

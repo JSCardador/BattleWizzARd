@@ -22,4 +22,9 @@ public class EnemyController : MonoBehaviour
         transform.LookAt(_playerTransform);
         transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
+
+    public void Die()
+    {
+        EnemiesManager.Instance.RemoveEnemy(gameObject);
+    }
 }
