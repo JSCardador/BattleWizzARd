@@ -98,7 +98,6 @@ public class EnemiesManager : MonoBehaviour
     /// <param name="position"></param>
     private void SpawnEnemy(Vector3 position)
     {
-            Debug.Log("Spawn enemy" + position);
         _enemies.Add(Instantiate(_enemy, position, Quaternion.identity));
     }
 
@@ -127,6 +126,5 @@ public class EnemiesManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         _enemies.Remove(enemy);
-        // Destroy(enemy);
     }
 }

@@ -32,7 +32,6 @@ public class FloorDetect : MonoBehaviour
     {
         get
         {
-            Debug.Log("Floor size: " + ((_currentPlaneSize.x * _currentPlaneSize.y) / _floorSizeMin) * 100);
             return (int)(((_currentPlaneSize.x * _currentPlaneSize.y) / _floorSizeMin) * 100);
         }
     }
@@ -68,12 +67,10 @@ public class FloorDetect : MonoBehaviour
     {
         if (_floorSizePercentage >= 100 && _currentPlane != null)
         {
-            Debug.Log("Floor already found");
             OnFinishScan();
         }
         else
         {
-            _floorSizeText.text = "Scan the floor";
             _arPlaneManager.enabled = true;
             _arPlaneManager.planesChanged += OnPlanesChanged;
         }
