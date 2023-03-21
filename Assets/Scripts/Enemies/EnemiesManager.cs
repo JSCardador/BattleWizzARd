@@ -98,6 +98,7 @@ public class EnemiesManager : MonoBehaviour
     /// <param name="position"></param>
     private void SpawnEnemy(Vector3 position)
     {
+            Debug.Log("Spawn enemy" + position);
         _enemies.Add(Instantiate(_enemy, position, Quaternion.identity));
     }
 
@@ -119,9 +120,8 @@ public class EnemiesManager : MonoBehaviour
     private Vector3 CalculateRandomPosicionToSpawn()
     {
         float radius = 10.0f; // Radio del círculo
-        Vector2 randomCircle = Random.insideUnitCircle * radius;
-        Vector3 randomPosition = new Vector3(randomCircle.x, 0, randomCircle.y) + _playerTransform.position;
-        return new Vector3(randomPosition.x, FloorDetect.Instance.GetFloorHeight(), randomPosition.y);
+        Vector2 randomCircle = Random.insideUnitCircle * radius; // Punto aleatorio dentro del círculo
+        return new Vector3(randomCircle.x, FloorDetect.Instance.GetFloorHeight(), randomCircle.y);
     }
 
     public void RemoveEnemy(GameObject enemy)

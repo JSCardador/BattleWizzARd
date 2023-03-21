@@ -61,12 +61,22 @@ public class FloorDetect : MonoBehaviour
 
 
     /// <summary>
-    ///  Starts the search for the floor.
+    /// We begin the process of scanning the ground to then place the enemies.
+    /// If we already have a scanned plan, we skip this step.
     /// </summary>
     public void StartSearchFloor()
     {
-        _arPlaneManager.enabled = true;
-        _arPlaneManager.planesChanged += OnPlanesChanged;
+        if (_floorSizePercentage >= 100 && _currentPlane != null)
+        {
+            Debug.Log("Floor already found");
+            OnFinishScan();
+        }
+        else
+        {
+            _floorSizeText.text = "Scan the floor";
+            _arPlaneManager.enabled = true;
+            _arPlaneManager.planesChanged += OnPlanesChanged;
+        }
     }
 
 
@@ -126,8 +136,20 @@ public class FloorDetect : MonoBehaviour
         _arPlaneManager.planesChanged -= OnPlanesChanged;
 
         GameManager.Instance.SetGameState(GameManager.GameState.ImageSearch);
+        HidePlanes();
     }
 
+    /// <summary>
+    /// Hide all the planes so that they do not obstruct the game.
+    /// </summary>
+    private void HidePlanes()
+    {
+        foreach (var plane in _arPlaneManager.trackables)
+        {
+            plane.gameObject.SetActive(false);
+        }
+    }
+    
     /// <summary>
     ///  Returns the height of the floor.
     /// </summary>

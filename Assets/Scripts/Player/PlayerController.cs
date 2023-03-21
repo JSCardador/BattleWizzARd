@@ -47,9 +47,15 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Call when we win or lose the game.
+    /// Resets the player's lives and disables the PlayerController script.
+    /// </summary>
     public void EndGame()
     {
         this.enabled = false;
+        Lives = 10;
+        _liveBar.fillAmount = (float)Lives / 10;
     }
 
 
