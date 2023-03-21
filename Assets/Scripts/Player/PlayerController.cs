@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 #if !UNITY_EDITOR
-        if (Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
 #else
         if (Input.GetMouseButtonUp(0))
 #endif

@@ -18,18 +18,22 @@ public class FloorDetect : MonoBehaviour
     // We will use these 3 variables to calculate a surface of 2.5 m2 (or more) and express it as a percentage.
     private Vector2 _currentPlaneSize
     {
-        get => _currentPlaneSize;
+        get => _PlaneSize;
         set
         {
+            _PlaneSize = value;
             _floorSizeText.text = $"Floor size: {_floorSizePercentage}%";
         }
     }
+    private Vector2 _PlaneSize;
+    private ARPlane _currentPlane;
     private float _floorSizeMin = 2.5f;
     private int _floorSizePercentage
     {
         get
         {
-            return (int)((_currentPlaneSize.x * _currentPlaneSize.y) / _floorSizeMin * 100);
+            Debug.Log("Floor size: " + ((_currentPlaneSize.x * _currentPlaneSize.y) / _floorSizeMin) * 100);
+            return (int)(((_currentPlaneSize.x * _currentPlaneSize.y) / _floorSizeMin) * 100);
         }
     }
 
@@ -107,6 +111,7 @@ public class FloorDetect : MonoBehaviour
     /// <param name="plane"></param>
     private void FloorFound(ARPlane plane)
     {
+        _currentPlane = plane;
         _currentPlaneSize = plane.size;
     }
 
@@ -132,7 +137,7 @@ public class FloorDetect : MonoBehaviour
 #if UNITY_EDITOR
         return 0f;
 #else
-        return _currentPlaneSize.y;
+        return _currentPlane.transform.position.y;
 #endif
     }
 }

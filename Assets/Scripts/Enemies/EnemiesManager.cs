@@ -118,9 +118,10 @@ public class EnemiesManager : MonoBehaviour
     /// <returns></returns>
     private Vector3 CalculateRandomPosicionToSpawn()
     {
-        float radius = 5.0f; // Radio del círculo
+        float radius = 10.0f; // Radio del círculo
         Vector2 randomCircle = Random.insideUnitCircle * radius;
-        return new Vector3(randomCircle.x, FloorDetect.Instance.GetFloorHeight(), randomCircle.y) + _playerTransform.position;
+        Vector3 randomPosition = new Vector3(randomCircle.x, 0, randomCircle.y) + _playerTransform.position;
+        return new Vector3(randomPosition.x, FloorDetect.Instance.GetFloorHeight(), randomPosition.y);
     }
 
     public void RemoveEnemy(GameObject enemy)
